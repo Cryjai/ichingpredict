@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>易經·靈境卜卦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0e0c0a;
+      --surface: rgba(24, 19, 14, 0.84);
+      --surface-2: rgba(38, 31, 22, 0.88);
+      --text: #f4ead4;
+      --muted: #c9b27c;
+      --line-yang: #eccb7e;
+      --line-yin: #cbbd91;
+      --border: rgba(220, 187, 110, 0.26);
+      --accent: #c9a45a;
+      --accent-2: #efcf8a;
+      --danger: #f0c56f;
+      --shadow: 0 18px 36px rgba(0,0,0,.42);
+      --radius-lg: 28px;
+      --radius-xl: 40px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      background: radial-gradient(circle at top left, #1d1812, #0c0a08 55%);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+    .container { max-width: 760px; margin: 0 auto; }
+    .logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font: 700 clamp(1.8rem, 3vw, 2.4rem) 'Noto Serif TC', serif;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #f7e7bf, #c79b4a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sub { color: var(--muted); font-size: .88rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+    .symbol { text-align: center; font-size: 4rem; color: #ffe6b3; letter-spacing: 8px; }
+    .hex-name { text-align: center; font: 700 1.9rem 'Noto Serif TC', serif; margin-top: 8px; }
+    .hex-sub { text-align: center; color: var(--muted); margin-top: 6px; }
+    .judgment {
+      margin: 18px 0 20px;
+      padding: 14px 18px;
+      border-radius: 24px;
+      background: rgba(0,0,0,.28);
+      border-left: 4px solid var(--accent);
+      text-align: center;
+      font-style: italic;
+    }
+    .yao-lines {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 10px;
+      margin: 22px 0;
+    }
+    .yao { display: flex; align-items: center; gap: 10px; }
+    .line-label { width: 28px; color: #ad9a70; font-size: .8rem; text-align: right; }
+    .line-group { display: flex; align-items: center; gap: 12px; min-width: 156px; justify-content: center; }
+    .yang-line, .yin-line {
+      height: 6px;
+      border-radius: 999px;
+    }
+    .yang-line {
+      width: 156px;
+      background: var(--line-yang);
+      box-shadow: 0 0 8px rgba(236,203,126,.35);
+    }
+    .yin-line {
+      width: 72px;
+      background: var(--line-yin);
+      box-shadow: 0 0 6px rgba(203,189,145,.22);
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .info-item {
+      background: var(--surface-2);
+      border: 1px solid rgba(220, 187, 110, 0.12);
+      border-radius: 22px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .info-label { color: var(--muted); font-size: .76rem; margin-bottom: 6px; }
+    .info-value { font-weight: 600; }
+    .meaning {
+      background: rgba(28, 22, 16, .9);
+      border: 1px solid rgba(210, 180, 110, .18);
+      border-radius: 24px;
+      padding: 16px 18px;
+      line-height: 1.65;
+      color: #f0e3c2;
+    }
+    .warning {
+      display: block;
+      margin-top: 12px;
+      color: var(--danger);
+      font-size: .92rem;
+    }
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    button {
+      appearance: none;
+      border: 1px solid rgba(210, 180, 110, 0.4);
+      background: rgba(230, 210, 150, 0.10);
+      color: var(--text);
+      padding: 14px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: 600 0.95rem Inter, sans-serif;
+      transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    button:hover { transform: translateY(-1px); background: rgba(230,210,150,.18); }
+    button:active { transform: translateY(1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, #d7ba81, #b68d45);
+      color: #1a140c;
+      border: none;
+      box-shadow: 0 8px 18px rgba(0,0,0,.25);
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(14px);
+      background: rgba(22,18,13,.95);
+      color: #f6dfab;
+      border: 1px solid rgba(230, 198, 122, .55);
+      border-radius: 999px;
+      padding: 12px 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 1000;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    footer { text-align: center; color: #7e6d4a; margin-top: 18px; font-size: .8rem; }
+    .shine { animation: pulseGold .45s ease-out; }
+    @keyframes pulseGold {
+      0% { box-shadow: 0 0 0 rgba(255, 209, 102, 0); }
+      50% { box-shadow: 0 0 0 3px rgba(255, 209, 102, .08), 0 18px 36px rgba(0,0,0,.42); }
+      100% { box-shadow: var(--shadow); }
+    }
+    @media (max-width: 640px) {
+      body { padding: 16px; }
+      .card { padding: 20px; border-radius: 28px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .hex-name { font-size: 1.55rem; }
+      .symbol { font-size: 3.25rem; }
+      .line-group { min-width: 132px; }
+      .yang-line { width: 132px; }
+      .yin-line { width: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1><i class="fas fa-circle-notch"></i> 易·靈機</h1>
+      <div class="sub">大衍之數 · 隨心而動</div>
+    </div>
+
+    <main class="card shine" id="hexCard">
+      <div class="symbol" id="symbolDisplay">䷀</div>
+      <div class="hex-name" id="hexName">乾為天</div>
+      <div class="hex-sub" id="hexFullName">第一卦 · 乾</div>
+      <div class="judgment" id="judgmentText">乾：元，亨，利，貞。</div>
+
+      <div class="yao-lines" id="yaoContainer"></div>
+
+      <section class="info-grid">
+        <div class="info-item"><div class="info-label"><i class="fas fa-briefcase"></i> 事業運</div><div class="info-value" id="careerField"></div></div>
+        <div class="info-item"><div class="info-label"><i class="fas fa-coins"></i> 財富運</div><div class="info-value" id="wealthField"></div></div>
+        <div class="info-item"><div class="info-label"><i class="fas fa-heart"></i> 感情</div><div class="info-value" id="loveField"></div></div>
+        <div class="info-item"><div class="info-label"><i class="fas fa-chart-line"></i> 氣運指數</div><div class="info-value" id="luckValue"></div></div>
+      </section>
+
+      <section class="meaning" id="meaningText"></section>
+
+      <div class="actions">
+        <button id="copyBtn" type="button"><i class="fas fa-copy"></i> 複製卦象</button>
+        <button id="randomBtn" class="btn-primary" type="button"><i class="fas fa-dice-d6"></i> 隨機起卦</button>
+      </div>
+    </main>
+
+    <footer>易經靈境 · 免費 · 開源 · created by Acry and her teammates</footer>
+  </div>
+
+  <div class="toast" id="toastMsg"><i class="fas fa-check-circle"></i> 卦象已複製</div>
+
+  <script>
+    const HEXAGRAMS = [
+      { id: 1, num: "第一卦", name: "乾", subname: "乾為天", symbol: "䷀", lines: [1,1,1,1,1,1], judgment: "乾：元，亨，利，貞。", meaning: "剛健中正，自強不息。象徵天之運行，純陽至剛，代表創始、領導、主動進取的力量。", career: "事業運極旺，適合主動出擊，開創新局。", wealth: "財運亨通，正財偏財皆有。", love: "感情主動，桃花旺，但別太強勢。", warning: "亢龍有悔——盛極必衰，位高需謙。", luck: 9 },
+      { id: 2, num: "第二卦", name: "坤", subname: "坤為地", symbol: "䷁", lines: [0,0,0,0,0,0], judgment: "坤：元，亨，利牝馬之貞。", meaning: "柔順包容，厚德載物。象徵大地，代表承載、培育、積累的力量。", career: "適合打基礎、協作與後台累積。", wealth: "財運穩健，適合保守理財。", love: "感情溫柔體貼，但別太被動。", warning: "時機未到，先厚積薄發。", luck: 7 },
+      { id: 11, num: "第十一卦", name: "泰", subname: "地天泰", symbol: "䷊", lines: [1,1,1,0,0,0], judgment: "泰：小往大來，吉，亨。", meaning: "陰陽交融，萬事通達，是最吉祥的卦之一。", career: "事業大吉，貴人大力相助。", wealth: "財運極旺，投資回報佳。", love: "感情甜蜜，適合確立關係。", warning: "泰極否來，爽都要記得留後路。", luck: 10 },
+      { id: 24, num: "第二十四卦", name: "復", subname: "地雷復", symbol: "䷗", lines: [1,0,0,0,0,0], judgment: "復：亨，出入無疾，朋來無咎。", meaning: "一陽來復，新的開始，生機重現。", career: "事業開始回暖，新機遇將出現。", wealth: "財運回升，新的財源正在形成。", love: "感情有轉機，舊情或新緣皆可期。", warning: "重啟可以，但唔好重蹈覆轍。", luck: 7 },
+      { id: 29, num: "第二十九卦", name: "坎", subname: "坎為水", symbol: "䷜", lines: [0,1,0,0,1,0], judgment: "習坎：有孚，維心亨，行有尚。", meaning: "險難重重，需要信心和智慧穿越。", career: "障礙多，靠腦唔靠蠻力。", wealth: "財運波折，先穩住陣腳。", love: "感情坎坷，要雙方一齊捱。", warning: "驚係正常，但唔好亂衝。", luck: 4 },
+      { id: 31, num: "第三十一卦", name: "咸", subname: "澤山咸", symbol: "䷞", lines: [0,0,1,1,0,0], judgment: "咸：亨，利貞，取女吉。", meaning: "感應相通，心靈共鳴。", career: "人際感應強，合作運好。", wealth: "靠人際關係有財機。", love: "感情極旺，主動會有回音。", warning: "你唔講，人哋唔會讀心。", luck: 9 },
+      { id: 42, num: "第四十二卦", name: "益", subname: "風雷益", symbol: "䷩", lines: [1,0,0,0,1,1], judgment: "益：利有攸往，利涉大川。", meaning: "增益豐收，有利成長與投資。", career: "事業大有進展，適合加注。", wealth: "財運佳，投入有回報。", love: "感情甜蜜增進。", warning: "有風口都要識執行，唔係淨係喺度幻想。", luck: 9 },
+      { id: 47, num: "第四十七卦", name: "困", subname: "澤水困", symbol: "䷮", lines: [0,1,0,1,1,0], judgment: "困：亨，貞，大人吉。", meaning: "困境窮途，最考驗意志。", career: "說話無人信，要靠結果翻盤。", wealth: "財運差，先止血。", love: "感情受困，要真誠突破。", warning: "停止解釋，用成績打臉。", luck: 2 },
+      { id: 64, num: "第六十四卦", name: "未濟", subname: "火水未濟", symbol: "䷿", lines: [0,1,0,1,0,1], judgment: "未濟：亨，小狐汔濟。", meaning: "尚未完成，但前路仍有希望。", career: "仲未到終點，專注最後衝刺。", wealth: "財富仍在累積中。", love: "關係仍在發展中。", warning: "最蠢就係快到終點先自己跣低。", luck: 7 }
+    ];
+
+    let currentHexagram = HEXAGRAMS[0];
+
+    function renderYaoLines(linesArr) {
+      const container = document.getElementById('yaoContainer');
+      container.innerHTML = '';
+      const labels = ['初', '二', '三', '四', '五', '上'];
+
+      linesArr.forEach((val, i) => {
+        const row = document.createElement('div');
+        row.className = 'yao';
+
+        const label = document.createElement('span');
+        label.className = 'line-label';
+        label.textContent = labels[i];
+
+        const group = document.createElement('div');
+        group.className = 'line-group';
+
+        if (val === 1) {
+          const line = document.createElement('div');
+          line.className = 'yang-line';
+          group.appendChild(line);
+        } else {
+          const left = document.createElement('div');
+          left.className = 'yin-line';
+          const right = document.createElement('div');
+          right.className = 'yin-line';
+          group.append(left, right);
+        }
+
+        row.append(label, group);
+        container.appendChild(row);
+      });
+    }
+
+    function updateUI(hex) {
+      if (!hex) return;
+      currentHexagram = hex;
+      document.getElementById('symbolDisplay').textContent = hex.symbol;
+      document.getElementById('hexName').textContent = hex.subname;
+      document.getElementById('hexFullName').textContent = `${hex.num} · ${hex.name}`;
+      document.getElementById('judgmentText').textContent = hex.judgment;
+      document.getElementById('careerField').textContent = hex.career;
+      document.getElementById('wealthField').textContent = hex.wealth;
+      document.getElementById('loveField').textContent = hex.love;
+      document.getElementById('luckValue').innerHTML = `${hex.luck} / 10 <i class="fas fa-star"></i>`;
+      document.getElementById('meaningText').innerHTML = `${hex.meaning}<span class="warning">⚡ ${hex.warning}</span>`;
+      renderYaoLines(hex.lines);
+
+      const card = document.getElementById('hexCard');
+      card.classList.remove('shine');
+      void card.offsetWidth;
+      card.classList.add('shine');
+    }
+
+    function randomHex() {
+      const index = Math.floor(Math.random() * HEXAGRAMS.length);
+      updateUI(HEXAGRAMS[index]);
+    }
+
+    async function copyHexagram() {
+      const hex = currentHexagram;
+      const text = `《易經·${hex.num} ${hex.name}卦》${hex.symbol}\n卦辭：${hex.judgment}\n寓意：${hex.meaning}\n事業：${hex.career}\n財富：${hex.wealth}\n感情：${hex.love}\n氣運指數：${hex.luck}/10\n警句：${hex.warning}`;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        const toast = document.getElementById('toastMsg');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1800);
+      } catch (err) {
+        alert('複製失敗，可能係瀏覽器權限搞鬼。');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('randomBtn').addEventListener('click', randomHex);
+      document.getElementById('copyBtn').addEventListener('click', copyHexagram);
+      updateUI(HEXAGRAMS[0]);
+    });
+  </script>
+</body>
+</html>
